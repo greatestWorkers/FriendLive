@@ -41,8 +41,8 @@
   <th>是否允许空</th>
 </tr>
 <tr>
-  <td>telephone</td>
-  <td>手机号</td>
+  <td>userId</td>
+  <td>用户ID(手机号)</td>
   <td>varchar</td>
   <td></td>
   <td></td>
@@ -109,28 +109,22 @@
   <th>是否允许空</th>
 </tr>
 <tr>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-</tr>
-<tr>
-  <td></td>
-  <td></td>
-  <td></td>
+  <td>userId1</td>
+  <td>用户1</td>
+  <td>varchar</td>
   <td></td>
   <td></td>
 </tr>
 <tr>
-  <td></td>
-  <td></td>
-  <td></td>
+  <td>userId2</td>
+  <td>用户2</td>
+  <td>varchar</td>
   <td></td>
   <td></td>
 </tr>
 </table>
-直播间表<br>
+
+用户-房间关联表<br>
 <table>
 <tr>
   <th>字段名</th>
@@ -140,16 +134,16 @@
   <th>是否允许空</th>
 </tr>
 <tr>
-  <td></td>
-  <td></td>
-  <td></td>
+  <td>userId</td>
+  <td>用户ID</td>
+  <td>varchar</td>
   <td></td>
   <td></td>
 </tr>
 <tr>
-  <td></td>
-  <td></td>
-  <td></td>
+  <td>roomId</td>
+  <td>房间ID</td>
+  <td>varchar</td>
   <td></td>
   <td></td>
 </tr>
