@@ -41,35 +41,63 @@
   <th>是否允许空</th>
 </tr>
 <tr>
-  <td>用户id</td>
-  <td></td>
-  <td></td>
-  <td></td>
-  <td></td>
-</tr>
-<tr>
-  <td></td>
-  <td></td>
-  <td></td>
+  <td>telephone</td>
+  <td>手机号</td>
+  <td>varchar</td>
   <td></td>
   <td></td>
 </tr>
 <tr>
-  <td></td>
-  <td></td>
-  <td></td>
+  <td>password</td>
+  <td>密码</td>
+  <td>varchar</td>
   <td></td>
   <td></td>
 </tr>
 <tr>
-  <td></td>
-  <td></td>
-  <td></td>
+  <td>gender</td>
+  <td>性别</td>
+  <td>bool</td>
   <td></td>
   <td></td>
 </tr>
-  
+<tr>
+  <td>nickname</td>
+  <td>名字</td>
+  <td>varchar</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>headImage</td>
+  <td>头像</td>
+  <td>varchar</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>token</td>
+  <td>序列号</td>
+  <td>varchar</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>liveStatus</td>
+  <td>直播状态</td>
+  <td>bool</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>isAdmin</td>
+  <td>是否为管理员</td>
+  <td>bool</td>
+  <td></td>
+  <td></td>
+</tr>
 </table>
+
 <br>
 好友关系表
 <table>
