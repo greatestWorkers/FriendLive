@@ -275,23 +275,24 @@ def upload(request):
 
 
 #测试手机号码注册功能
-@view_defaults(route_name = 'test1')
+@view_defaults(route_name = 'test')
 class register(object):
     def __init__(self,request):
 	self.request = request
+	self.phone = request.params.get("phone_number",None)
 	self.code = int(random.random()*10000)
 
 
     def send_sms_chuanglan(self,phone):
 	account = "jk_cs_cs1"
-	password = "chuanglan888"
+	password = "Chuanglan888"
 
 	msg = u'您好，您本次的注册验证码是%s'%(self.code)
 	host = "sapi.253.com"
 	sms_send_uri = "/msg/HttpBatchSendSM"
 
 	data = {
-	    'acount':account,
+	    'account':account,
 	    'pswd':password,
 	    'msg':msg,
 	    'mobile':phone,
@@ -303,56 +304,63 @@ class register(object):
 	    "Accept":"text/plain"
 	}
 	url = 'http://%s%s'%(host,sms_send_uri)
-	phone_number = self.request.params.get('userid',None)
 
 	#使用会话对象提升性能,verify表示是否验证ssl证书（默认为true）
-	r = requests.session().request('POST',url,verify=False,headers=headers,data=data,)
+	r = requests.session().request('POST',url,verify=False,
+		headers=headers,data=data,)
 	print r.content
 	if r.ok:
 	    content = r.content.split(',')
 	    print content
+	    #测试，返回了错误码说明接口可用
 	    if len(content) == 2 and len(content[0])>0:
 		return True,str(content[0])
 	return False,None
 
     @view_config(request_method = 'GET')
-    def send_to_operator(self):
-	phone_number = self.request.params.get('userid',None)
-	passwd = self.request.params.get('password',None)
-	if validators.ValidPhoneNumber().to_python(phone_number) is None:
-	    return Response({'status':'error','message':'Invalid number'})
-	if validators.ValidInput().to_python(passwd) is None:
-	    return Response({'status':'failed','message':'Invalid password'})
+    def send_code(self):
+	#phone_number = self.request.params.get('phone_number',None)
 	#调用运营商提供的接口向此手机号发送验证码
-	try:
-	    res = send_sms_chuanglan(phone_number,code)    
-	except:
-	    print "unknown error"
-	return Response({'status':'success','message':''})
+	res = send_sms_chuanglan(self.code)    
+	if res[0] and res[1]= 0:
+	    return Response(1)
+	else:
+	    print res[1]
+	    return Response(0)
     @view_config(request_method = 'POST')
-    def verification(self):
-	temp = {}
-	userid = self.request.params.get('userid',None)
-	passwd = self.request.params.get('password',None)
+    def verify_code(self):
 	code = int(self.request.params.get('code',None))
 	if code == self.code:
-	    temp['user_id']= userid
-	    temp['user_password']= passwd
-	    temp['user_token']= auth.encode(userid,
-			self.request.params['expire_in'])
-	    temp['user_nick_name']= None
-	    temp['user_birth']= None
-	    temp['user_gender']= None
-	    temp['user_grade']= None
-	    temp['user_group']= []
-	    temp['user_subscribe']= []
-	    temp['user_course']= []
-	    temp['user_wallet']= None
-	    pyc.update({'user_id':number},temp)
-	    return Response({'status':'success','message':''})
+	    return Response(1)
 	else:
-	    return Response({'status':'failed',
-		'message':'the code does not match'})
+	    return Response(0)
+    @view_config(request_param = "register=1",request_method = 'POST')
+    def sign_up(self): 
+	temp = {} 
+	userId = self.phone 
+
+	base_path = os.path.abspath('.')
+	seq = base_path.split('/')
+	path = '/'.join([base_path,seq[-1].lower(),'static'])
+	filename = '.'.join([self.phone_number,request.POST['img'].filename.split('.')[1]]) 
+	file_path = '/'.join([path,'imgs',filename]) 
+	input_file = request.POST['img'].file 
+	with open(file_path,'wb') as output_file: 
+	    shutil.copyfileobj(input_file,output_file) headImage = file_path
+
+	password = self.params.get("password",None)
+	gender = self.params.get("gender",None)
+	nickname = self.params.get("nickname",None) token = None LiveStatus = 0
+	isAdmin = 0
+	
+	temp["userId"]= userId
+	temp["password"]= password
+	temp["gender"]= gender
+	temp["nickname"]= nickname
+	temp["isAdmin"]= isAdmin
+	temp["headImage"]= headImage
+
+	pyc.update({"userId":userId},temp)
 
 #测试登录和注销功能
 @view_defaults(route_name = 'test2')
@@ -362,7 +370,7 @@ class login_out(object):
 	self.login = request.params.get('userid',None)
 	self.passwd = request.params.get('password',None)
     
-    @view_config(request_method = 'GET')
+    @view_config(request_method = 'GET') 
     def login(self):
 	res = validators.UniqueName().to_python(self.login)
 	if res is not None:
@@ -383,23 +391,3 @@ class login_out(object):
     def logout(self):
 	pass	
 
-"""
-#大厅界面，类似商店的货架，上面是要售卖的课程，课程应该包含的信息有价格,
-#周期，教师，介绍，所属学科，所以数据库中要有三中数据，学生，教师，课程,
-#而教师的信息应该包括所授课程，所属组别（教师级别）。。。
-
-@view_defaults(route_name = 'test3')
-class student(object):
-    #学生的行为包括完善信息，查看课程信息，订阅教师，购买课程
-    @auth_interface
-    def __init__(self,**kws):
-	self.request = request
-	self.userid = kws['userid']
-	self.expire_in = kws['expire_in']
-
-    #购买课程,根据课程id更新相关数据，学生的购买课程信息，教师的购买课程学生
-    @view_config(route_method = 'GET')
-    def purchase(self):
-	course_id = self.request.params.get('id',None)
-	course_price = self.request.parmas.get('price',None)
-"""
