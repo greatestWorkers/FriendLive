@@ -155,9 +155,38 @@
   <td></td>
 </tr>
 </table>
-  
 
-  
-  
+IP安全数据表<br>
+<table>
+<tr>
+  <th>字段名</th>
+  <th>中文</th>
+  <th>类型</th>
+  <th>长度</th>
+  <th>是否允许空</th>
+</tr>
+<tr>
+  <td>userId</td>
+  <td>用户ID</td>
+  <td>varchar</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>IP</td>
+  <td>请求次数</td>
+  <td>最近请求时间</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+</table>
+  
   
   
