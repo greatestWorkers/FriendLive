@@ -60,5 +60,6 @@ def main(global_config, **settings):
     config.add_route('user','/user')
     config.add_route('Livelist','/livelist')
     config.add_route('register','/register')
+    config.add_route('log','/log')
     config.scan()
     return config.make_wsgi_app()

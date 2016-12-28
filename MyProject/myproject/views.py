@@ -216,7 +216,7 @@ class User_logic(object):
             "passwd":passwd,
             "city":city
         }
-    '''
+'''
     #获取订阅列表和粉丝列表
     @view_config(request_method = 'HEAD')
     @auth_interface
@@ -256,7 +256,7 @@ class User_logic(object):
 	    return Response({"status":"the anchorman does not exist"})
 	else:
 	    return Response(json.dumps(user,ensure_ascii=False))
-    '''
+'''
 
 @view_config(route_name = 'test')
 def upload(request):
@@ -274,20 +274,17 @@ def upload(request):
 
 
 
-#测试手机号码注册功能
-@view_defaults(route_name = 'test')
+#手机号码注册功能
+@view_defaults(route_name = 'register')
 class register(object):
     def __init__(self,request):
 	self.request = request
-	self.phone = request.params.get("phone_number",None)
-	self.code = int(random.random()*10000)
 
-
-    def send_sms_chuanglan(self,phone):
+    def send_sms_chuanglan(self,phone,code):
 	account = "jk_cs_cs1"
 	password = "Chuanglan888"
 
-	msg = u'您好，您本次的注册验证码是%s'%(self.code)
+	msg = u'您好，您本次的注册验证码是%s'%(code)
 	host = "sapi.253.com"
 	sms_send_uri = "/msg/HttpBatchSendSM"
 
@@ -319,25 +316,29 @@ class register(object):
 
     @view_config(request_method = 'GET')
     def send_code(self):
-	#phone_number = self.request.params.get('phone_number',None)
+	phone_number = self.request.params.get('userId',None)
+	code = int(random.random()*10000)
+
 	#调用运营商提供的接口向此手机号发送验证码
-	res = send_sms_chuanglan(self.code)    
-	if res[0] and res[1]= 0:
-	    return Response(1)
+	res = self.send_sms_chuanglan(phone_number,code)
+	print code
+	if res[0] and res[1]== 0:
+	    return Response(str(code))
 	else:
 	    print res[1]
-	    return Response(0)
+	    return Response('0')
     @view_config(request_method = 'POST')
     def verify_code(self):
+	code_v = int(self.request.params.get('code_v',None))
 	code = int(self.request.params.get('code',None))
-	if code == self.code:
-	    return Response(1)
+	if code_v == code:
+	    return Response('1')
 	else:
-	    return Response(0)
-    @view_config(request_param = "register=1",request_method = 'POST')
+	    return Response('0')
+    @view_config(request_param = "register=1",request_method = 'POST') 
     def sign_up(self): 
 	temp = {} 
-	userId = self.phone 
+	userId = request.params.get("userId",None) 
 
 	base_path = os.path.abspath('.')
 	seq = base_path.split('/')
@@ -346,11 +347,15 @@ class register(object):
 	file_path = '/'.join([path,'imgs',filename]) 
 	input_file = request.POST['img'].file 
 	with open(file_path,'wb') as output_file: 
-	    shutil.copyfileobj(input_file,output_file) headImage = file_path
+	    shutil.copyfileobj(input_file,output_file) 
+	
+	headImage = file_path
 
 	password = self.params.get("password",None)
 	gender = self.params.get("gender",None)
-	nickname = self.params.get("nickname",None) token = None LiveStatus = 0
+	nickname = self.params.get("nickname",None) 
+	token = None 
+	LiveStatus = 0
 	isAdmin = 0
 	
 	temp["userId"]= userId
@@ -362,32 +367,37 @@ class register(object):
 
 	pyc.update({"userId":userId},temp)
 
-#测试登录和注销功能
-@view_defaults(route_name = 'test2')
-class login_out(object):
+#登录和注销功能
+@view_defaults(route_name = 'log')
+class SignInOut(object):
     def __init__(self,request):
 	self.request = request
+	self.token = request.params.get('token',None)
 	self.login = request.params.get('userid',None)
 	self.passwd = request.params.get('password',None)
-    
-    @view_config(request_method = 'GET') 
-    def login(self):
-	res = validators.UniqueName().to_python(self.login)
-	if res is not None:
-	    return Response(res)
-	res = validators.ValidInput().to_python(self.passwd)
-	if res is not None:
-	    return Response(res)
-	user = pyc.find({"user_id":self.login},{"_id":0})
-	if self.passwd == user["user_password"]:
-	    token = auth.encode(self.login,
-		time.time()+ self.request.params.get('expire_in',None))
-	    pyc.update({"user_id":self.login},{"user_token":token})
-	else:
-	    return Response({"status":"failed",
-		"message":"Password doesn't match"})
 
+    def check_token(token):
+    	try:
+	    user = pyc.find({"userId":event.login},{"_id":0})[0] 
+	except IndexError:
+	    return 1
+	if self.passwd != user["password"]:
+	    return 2
+	token = auth.encode(event.login,
+		     time.time()+ event.request.params.get('expire_in',None))
+	pyc.update({"user_id":self.login},{"user_token":token})
+	return 0
+
+    def sign_in(self,request_method = 'GET')
+	res = self.check_token(self.token)
+	if res == 0:
+	    return Response("登录成功")
+	if res == 1:
+	    return Response("用户不存在")
+	if res == 2:
+	    return Response("密码错误")
+	
     @view_config(request_method = 'DELETE')
     def logout(self):
-	pass	
+	pass
 
