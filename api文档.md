@@ -154,11 +154,11 @@
 | 序号 | 参数名 | 中文名称 | 数据类型 | 备注 |
 | :--- | :--- | :--- | :--- | :--- |
 | 1 | result | 返回结果 | string | “0000":“成功";                 "0007":“用户不存在";   "0008":"密码错误"; |
-| 2 | message | 相关信息 | string | None |
+| 2 | message | 相关信息 | string | 成功返回token，否则返回None |
 
 返回实例
 
-| 示例 | {"result":"0000"}；{"result":"0007"}； {"result":"0008"} |
+| 示例 | {"result":"0000,"message":token}；{"result":"0007","message":None}； {"result":"0008","message":None} |
 | :---: | :--- |
 
 
