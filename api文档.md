@@ -109,6 +109,7 @@
 | 2 | password | 密码 | Y | string | 至少8位 | 同时包括字母和数字 |
 | 3 | gender | 性别 | N | string |  | “0”：女  ； “1”：男 |
 | 4 | nickname | 昵称 | N | string |  |  |
+| 5 | step |  | Y | string |  | 修饰视图，值为"2" |
 
 返回数据
 
