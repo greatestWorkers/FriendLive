@@ -11,14 +11,14 @@
 | 操作 | 发送4位数手机验证码至用户 |
 | :---: | :---: |
 | 协议 | http |
-| 方式 | GET |
+| 方式 | POST |
 | URL全径 | [http://192.168.199.122:6543/room](http://192.168.199.122:6543/room) |
 
 请求参数
 
 | 序号 | 参数名 | 中文名称 | 必选 | 数据类型 | 长度 | 备注 |
 | :--- | :---: | :--- | :--- | :--- | :--- | :--- |
-| 1 | userId | 手机号（账户名） | Y | string | 11位 | 11位手机号码，由前端完成格式验证 |
+| 1 | token | 用户标识 | Y | string |  | 验证用户合法性 |
 
 返回数据
 
@@ -180,18 +180,18 @@
 
 | 序号 | 参数名 | 中文名称 | 必选 | 数据类型 | 长度 | 备注 |
 | :--- | :---: | :--- | :--- | :--- | :--- | :--- |
-| 1 | userId | 手机号（账户名） | Y | string | 11位 | 11位手机号码，由前端完成格式验证 |
+| 1 | token | 用户标示 | Y | string |  | 验证用户合法性 |
 
 返回数据
 
 | 序号 | 参数名 | 中文名称 | 数据类型 | 备注 |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | result | 返回结果 | string | “0000":“成功";                 "0001":“该手机号已被注册";                            "0002":"其他错误"; |
-| 2 | message | 相关信息 | string | 若发送成功，返回该验证码；否则返回None |
+| 1 | result | 返回结果 | string | “0000":“成功";                 "0009":“API错误，bad request";  |
+| 2 | message | 相关信息 | string | 若成功，返回stream\(json\)；否则返回None |
 
 返回实例
 
-| 示例 | {"result":"0000","message":code}；{"result":"0002","mes":None} |
+| 示例 | {u'message': u'{"nonce": 0, "publishSecurity": "static", "hub": "mrpyq", "expireAt": "2017-01-22T10:28:45.799148343+08:00", "title": "586f00dd5e77b017852a1a7e", "publishKey": "96aaffaee4505e6d", "disabled": false, "disabledTill": 0, "nropEnable": null, "hosts": {"live": {"snapshot": "pili-live-snapshot.mrpyq.com", "http": "pili-live-hls.mrpyq.com", "hdl": "pili-live-hdl.mrpyq.com", "hls": "pili-live-hls.mrpyq.com", "rtmp": "pili-live-rtmp.mrpyq.com"}, "playback": {"http": "10004p0.playback1.z1.pili.qiniucdn.com", "hls": "10004p0.playback1.z1.pili.qiniucdn.com"}, "play": {"http": "pili-live-hls.mrpyq.com", "rtmp": "pili-live-rtmp.mrpyq.com"}, "publish": {"rtmp": "pili-publish.mrpyq.com"}}, "updatedAt": "2017-01-06T10:28:45.799+08:00", "id": "z1.mrpyq.586f00dd5e77b017852a1a7e", "createdAt": "2017-01-06T10:28:45.799+08:00"}', u'result': u'0000'} |
 | :---: | :--- |
 
 
