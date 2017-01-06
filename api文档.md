@@ -250,12 +250,12 @@
 
 | 序号 | 参数名 | 中文名称 | 数据类型 | 备注 |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | result | 返回结果 | string | “0000":“成功";                 "0009":“API错误，bad request"; |
-| 2 | message | 相关信息 | string | 若成功，返回stream\(json\)；否则返回None |
+| 1 | result | 返回结果 | string | “0000":“成功";                 |
+| 2 | message | 相关信息 | string | 好友列表 |
 
 返回实例
 
-| 示例 | {u'message': u'{"nonce": 0, "publishSecurity": "static", "hub": "mrpyq", "expireAt": "2017-01-22T10:28:45.799148343+08:00", "title": "586f00dd5e77b017852a1a7e", "publishKey": "96aaffaee4505e6d", "disabled": false, "disabledTill": 0, "nropEnable": null, "hosts": {"live": {"snapshot": "pili-live-snapshot.mrpyq.com", "http": "pili-live-hls.mrpyq.com", "hdl": "pili-live-hdl.mrpyq.com", "hls": "pili-live-hls.mrpyq.com", "rtmp": "pili-live-rtmp.mrpyq.com"}, "playback": {"http": "10004p0.playback1.z1.pili.qiniucdn.com", "hls": "10004p0.playback1.z1.pili.qiniucdn.com"}, "play": {"http": "pili-live-hls.mrpyq.com", "rtmp": "pili-live-rtmp.mrpyq.com"}, "publish": {"rtmp": "pili-publish.mrpyq.com"}}, "updatedAt": "2017-01-06T10:28:45.799+08:00", "id": "z1.mrpyq.586f00dd5e77b017852a1a7e", "createdAt": "2017-01-06T10:28:45.799+08:00"}', u'result': u'0000'} |
+| 示例 | {"result":"0000"  ,  "message" : {"count": 0, "friends": \[\]}} |
 | :---: | :--- |
 
 
