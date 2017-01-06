@@ -112,11 +112,12 @@
 
 | 序号 | 参数名 | 中文名称 | 必选 | 数据类型 | 长度 | 备注 |
 | :--- | :---: | :--- | :--- | :--- | :--- | :--- |
-| 1 | headImage | 头像完整路径名 | N | sring |  |  |
-| 2 | password | 密码 | Y | string | 至少8位 | 同时包括字母和数字 |
-| 3 | gender | 性别 | N | string |  | “0”：女  ； “1”：男 |
-| 4 | nickname | 昵称 | N | string |  |  |
-| 5 | register |  | Y | string |  | 修饰视图，值为"1" |
+| 1 | userId | 用户名 | Y | string | 11位电话号码 |  |
+| 2 | headImage | 头像完整路径名 | N | sring |  |  |
+| 3 | password | 密码 | Y | string | 至少8位 | 同时包括字母和数字 |
+| 4 | gender | 性别 | N | string |  | “0”：女  ； “1”：男 |
+| 5 | nickname | 昵称 | N | string |  |  |
+| 6 | register |  | Y | string |  | 修饰视图，值为"1" |
 
 返回数据
 
@@ -148,6 +149,7 @@
 | 序号 | 参数名 | 中文名称 | 必选 | 数据类型 | 长度 | 备注 |
 | :--- | :---: | :--- | :--- | :--- | :--- | :--- |
 | 1 | userId | 手机号（账户名） | Y | string | 11位 | 11位手机号码，由前端完成格式验证 |
+| 2 | pasword | 密码 | Y | string | 至少8位 | 包含数字和字母 |
 
 返回数据
 
@@ -186,12 +188,41 @@
 
 | 序号 | 参数名 | 中文名称 | 数据类型 | 备注 |
 | :--- | :--- | :--- | :--- | :--- |
-| 1 | result | 返回结果 | string | “0000":“成功";                 "0009":“API错误，bad request";  |
+| 1 | result | 返回结果 | string | “0000":“成功";                 "0009":“API错误，bad request"; |
 | 2 | message | 相关信息 | string | 若成功，返回stream\(json\)；否则返回None |
 
 返回实例
 
 | 示例 | {u'message': u'{"nonce": 0, "publishSecurity": "static", "hub": "mrpyq", "expireAt": "2017-01-22T10:28:45.799148343+08:00", "title": "586f00dd5e77b017852a1a7e", "publishKey": "96aaffaee4505e6d", "disabled": false, "disabledTill": 0, "nropEnable": null, "hosts": {"live": {"snapshot": "pili-live-snapshot.mrpyq.com", "http": "pili-live-hls.mrpyq.com", "hdl": "pili-live-hdl.mrpyq.com", "hls": "pili-live-hls.mrpyq.com", "rtmp": "pili-live-rtmp.mrpyq.com"}, "playback": {"http": "10004p0.playback1.z1.pili.qiniucdn.com", "hls": "10004p0.playback1.z1.pili.qiniucdn.com"}, "play": {"http": "pili-live-hls.mrpyq.com", "rtmp": "pili-live-rtmp.mrpyq.com"}, "publish": {"rtmp": "pili-publish.mrpyq.com"}}, "updatedAt": "2017-01-06T10:28:45.799+08:00", "id": "z1.mrpyq.586f00dd5e77b017852a1a7e", "createdAt": "2017-01-06T10:28:45.799+08:00"}', u'result': u'0000'} |
+| :---: | :--- |
+
+
+### 主播离开
+
+请求地址
+
+| 操作 | 主播离开直播房间，直播关闭 |
+| :---: | :---: |
+| 协议 | http |
+| 方式 | POST |
+| URL全径 | [http://192.168.199.122:6543/room](http://192.168.199.122:6543/room) |
+
+请求参数
+
+| 序号 | 参数名 | 中文名称 | 必选 | 数据类型 | 长度 | 备注 |
+| :--- | :---: | :--- | :--- | :--- | :--- | :--- |
+| 1 | token | 用户标示 | Y | string |  | 验证用户合法性 |
+
+返回数据
+
+| 序号 | 参数名 | 中文名称 | 数据类型 | 备注 |
+| :--- | :--- | :--- | :--- | :--- |
+| 1 | result | 返回结果 | string | “0000":“成功";                 "0009":“API错误，bad request"; |
+| 2 | message | 相关信息 | string | None |
+
+返回实例
+
+| 示例 | {"result":"0009"} |
 | :---: | :--- |
 
 
