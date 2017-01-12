@@ -7,7 +7,7 @@ from pyramid.security import remember , forget
 from pyramid.httpexceptions import HTTPFound,HTTPNotFound
 from mongodb_connect import *
 from auth import *
-import shutil , os , sys , validators , hashlib , time , random , json , requests
+import logging , shutil , os , sys , validators , hashlib , time , random , json , requests
 import pymongo
 
 access_key = "TUo-Zhi8ICQGKqHVuIzL1rYdb5itNEF4F6fQzJjr"
@@ -16,262 +16,21 @@ hub_name = "mrpyq"
 
 pyc = PyConnect("127.0.0.1",27017)
 pyc.use('foobar')
-pyc.setCollection('users')
+
 
 @view_config(route_name = 'home')
 def my_home(request):
-    return Response("test")
+    return Response("change")
 
-@view_defaults(route_name='room',renderer='json')
-class room_logic(object):
-    def __init__(self,request):
-        self.request = request
-    
-    #创建房间
-    @view_config(request_method = 'GET')
-    @auth_interface
-    def create_room(self,**args):
-
-        #向七牛直播空间申请推流stream，并将其以json格式返回
-        credentials = Credentials(access_key,secret_key)
-        hub = Hub(credentials,hub_name)
-        stream = hub.create_stream(title=None , publishKey=None , 
-                    publishSecurity="static")
-        pilipili = {}
-        if(stream):
-            userid = self.request.user["userid"]
-            pilipili['room_id'] = stream.id
-            pilipili['publish_url'] = stream.rtmp_publish_url()
-            pilipili['play_url'] = stream.rtmp_live_urls()
-            pilipili['title'] = stream.title
-            pilipili['live_status']= 'on' 
-            pyc.update({"user_id":userid},pilipili)
-
-        return json.loads(stream.to_json())
-
-    #关闭房间
-    @view_config(request_method = 'DELETE')
-    def my_exitroom(self):
-        
-        #主播离开房间，删除相对应的stream，更新数据库
-
-        credentials = Credentials(access_key,secret_key)
-        hub = Hub(credentials,hub_name)
-
-        userid = self.request.user["user_id"]
-        roomid = pyc.find({"user_id":userid},{"_id":0})[0]["room_id"]
-        stream = hub.get_stream(stream_id = roomid)
-
-        try:
-            stream.delete()
-        except Exception,e:
-            if(pyc.find({"room_id":roomid})[0]):
-                print 'dead stream'
-                pyc.update({"user_id":userid},{"live_status":"off"})
-            return Response('0')
-        else:
-            pyc.update({"user_id":userid},{"live_status":"off"},True)
-            return Response('1')
-
-
-@view_defaults(route_name = 'Livelist' , renderer = 'json')
-class Live_list(object):
-    def __init__(self,request):
-        self.request = request
-
-    @view_config(request_method = 'GET')
-    def Newest(self):
-
-        #列出所有活跃的直播流
-        pilipili = {}
-        pilipili['count']= 0
-        pilipili['list']= []
-
-        cursor = pyc.find({"live_status":"on"},{"_id":0,"live_status":0})
-        for s in  cursor:
-            pilipili['list'].append(s)
-            pilipili['count']+= 1
-        return Response(json.dumps(pilipili , ensure_ascii = False))
-'''
-@view_config(route_name = 'Logout')
-@connect_mongodb
-def account_logout(request,pyc):
-
-    #注销账户，删除数据前需先从七牛删除相应的steam
-    credentials = Credentials(access_key,secret_key)
-    hub = Hub(credentials,hub_name)
-
-    userid = request.matchdict["userid"]
-    roomid = pyc.find({"useridx":userid},{"_id":0})[0]["roomid"]
-    stream = hub.get_stream(stream_id = roomid)
-    try:
-        stream.delete()
-    except Exception,e:
-        if(pyc.find({"roomid":roomid},{"_id":0})[0]["roomid"]):
-            print 'dead stream'
-            pyc.remove({"useridx":userid})
-        exit(0)
-    else:
-    	pyc.remove({"useridx":userid})
-    	return Response("logout")
-'''
-
-
-@view_defaults(route_name = 'user')
-class User_logic(object):
-    def __init__(self,request):
-        self.request = request
-
-    @view_config(request_method = 'GET',renderer = 'templates/login.pt')
-    def login_view(self):
-        login_url = self.request.route_url('user')
-        referrer = self.request.url
-        if referrer == login_url:
-            referrer = '/' # never use the login form itself as came_from
-        came_from = self.request.params.get('came_from', referrer)
-        message = ''
-        login = ''
-        password = ''
-        if 'form.submitted' in self.request.params:
-            login = self.request.params['login']
-            password =self.request.params['password']
-        try:
-            user = pyc.find({"user_id":login},{"_id":0})[0]
-        except IndexError as e:
-            message = 'User does not exist'
-	else:
-            if user["user_password"] == password:
-                token = auth.encode(login,time.time()+888)
-                pyc.update({"user_id":login},{"user_token":token})
-                login = token
-                return HTTPFound(location = came_from)
-                #return Response(json.dumps(user,ensure_ascii = False))
-            else:
-                message = 'Password does not match'
-
-        return dict(
-            message = message,
-            url = self.request.application_url + '/user',
-            came_from = came_from,
-            login = login,
-            password = password,
-            )    
-
-    #注销
-    @view_config(request_method = 'DELETE')
-    def logout_view(self):
-        headers = forget(self.request)
-        return HTTPFound(location = '/list' , headers = headers)
-
-    #修改个人信息
-    @view_config(request_method = "POST",renderer = 'templates/signup.pt') 
-    def edit_information(self): 
-	base_path = os.path.abspath('.')
-	seq = base_path.split('/')
-	path = '/'.join([base_path,seq[-1].lower(),'static'])
-        '''
-        validator1 = validators.ValidInput()
-        validator2 = validators.UniqueName()
-        login = validator2.to_python(self.request.params.get("login",None))
-        passwd = validator1.to_python(self.request.params.get("passwd",None))
-        '''
-
-        city = self.request.params.get("passwd",None)
-        nick_name = self.request.params.get("nick_name",None)
-	
-	field = self.request.POST['img']
-	input_file = field.file
-	
-        if 'submit' in self.request.params:
-            temp = {"point":0}
-            temp["user_id"]= login
-            temp["user_passward"]= passwd
-            temp["user_birthday"]= self.request.params.get("birth",None)
-            temp["user_city"]= city
-            temp["user_email"]= self.request.params.get("email",None)
-            temp["user_gender"]= self.request.params.get("gender",None)
-
-	    #保存头像到项目的static asset
-	    file_path = '/'.join([path,'user_imgs',login+'.png'])
-	    try:
-	        with open(path,'wb') as output_file:
-		    shutil.copyfileobj(input_file,output_file)
-	    except IOError:
-		print '写入文件失败'
-		return Response({status:'failed'})
-            temp["user_img"]=  file_path
-
-            temp["user_nick_name"]= nick_name 
-            temp["user_phone"]= self.request.params.get("phone",None)
-            temp["user_token"]= self.request.params.get("token",None)
-            temp["is_admin"]= self.request.params.get("permissin",None)
-	    temp["user_subscribe"]= []
-	    temp["user_fans"]= []
-	    temp["user_gifts"]= {}
-        pyc.update({'user_id':login},temp)
-        #return Response({"status":"success"})
-        return {
-            "login":login,
-            "nick_name":nick_name,
-            "passwd":passwd,
-            "city":city
-        }
-'''
-    #获取订阅列表和粉丝列表
-    @view_config(request_method = 'HEAD')
-    @auth_interface
-    def subscribe_fans_list(self,**kws):
-	if self.request.params.get('ask',None)== 'subscribe_list':
-	    return Response(pyc.find({'user_id':kws['userid']},
-		{"user_subscribe":1}))
-	elif self.request.params.get('ask',None)== 'fans_list':
-	    return Response(pyc.find({'user_id':kws['userid']},
-                {"user_fans":1}))
-	else:
-	    return Response({'status':'failed'})
-
-    #订阅和取消订阅
-    @view_config(request_method = 'PUT')
-    @auth_interface
-    def subscribe_unsubscribe(self,**kws):
-	list = pyc.find({'user_id':kws['userid']},
-                {"user_subscribe":1})
-	if self.request.params.get('ask',None)== 'subscribe':
-	    list.append(request.params.get('anchorman',None))
-	    pyc.update({"user_id":kws["userid"]},{"user_subscribe":list})
-	elif self.request.params.get('ask',None)== 'unsubscribe':
-	    list.remove(request.params.get('anchorman',None))
-	    pyc.update({"user_id":kws["userid"]},{"user_subscribe":list})
-	else:
-	    return Response({'status':'failed'})
-
-    #搜索主播
-    @view_config(request_method = 'HEAD')
-    @auth_interface
-    def search_anchorman(self,**kws):
-	try:
-            user = pyc.find({"user_id":request.params.get("userid",None)},
-		{"_id":0})[0]
-	except IndexError:
-	    return Response({"status":"the anchorman does not exist"})
-	else:
-	    return Response(json.dumps(user,ensure_ascii=False))
-'''
-
-@view_config(route_name = 'test')
-def upload(request):
-    base = "/env/workspace/PyramidProject/MyProject/myproject/static/user_imgs"
-    filename = request.POST['img'].filename
-    file_path = '/'.join([base,filename])
-    input_file = request.POST['img'].file
-    login = request.params.get("login",None)
-    with open(file_path,'wb') as output_file:
-	shutil.copyfileobj(input_file,output_file)
-    path = os.path.abspath('.')
-    application_path = request.application_url
-    print path ,'\n',application_path
-    return Response(json.dumps({"sus":login},ensure_ascii = False))
-
+class APIError(Exception):
+    '''
+    the base APIError which contains error(required), data(optional) and message(optional).
+    '''
+    def __init__(self, error, data='', message=''):
+        super(APIError, self).__init__(message)
+        self.error = error
+        self.data = data
+        self.message = message
 
 
 #手机号码注册功能
@@ -279,6 +38,44 @@ def upload(request):
 class register(object):
     def __init__(self,request):
 	self.request = request
+
+    def createPhoneCode(self):
+	chars = ['0','1','2','3','4','5','6','7','8','9']
+	x = random.choice(chars),random.choice(chars),random.choice(chars),random.choice(chars)
+	verifyCode = ''.join(x)
+	return verifyCode
+
+    def send_sms_changzhuo(self,phone,code):
+	#畅卓科技
+	account = ''
+	password = ''
+
+	if phone.find('+')>= 0:
+	    acount = ''
+	    password = ''
+	    content = 'Dear user,your verification code is %s [MingPeng]'%code
+	content = '您的验证码是%s[名人朋友圈]'%code
+
+	m = hashlib.md5()
+	m.update(password)
+
+	data = {
+	    'account':account,
+	    'password':m.hexdigest().upper(),
+	    'mobile':phone,
+	    'content':content,	    
+	}
+
+
+	r = requests.post('http://api.chanzor.com/send',data = data)
+	if r.ok:
+	    resp = r.json()
+	    if resp.get('status')== 0:
+		return True,str(resp.get('taskId'))
+	    else:
+		raise APIError(-1,u'发送手机验证码错误:%s'%resp.get('desc'),
+			 self.request.path)
+	return False,None
 
     def send_sms_chuanglan(self,phone,code):
 	account = "jk_cs_cs1"
@@ -305,58 +102,59 @@ class register(object):
 	#使用会话对象提升性能,verify表示是否验证ssl证书（默认为true）
 	r = requests.session().request('POST',url,verify=False,
 		headers=headers,data=data,)
-	print r.content
 	if r.ok:
 	    content = r.content.split(',')
 	    print content
+	    sys.stdout.flush() 
 	    #测试，返回了错误码说明接口可用
 	    if len(content) == 2 and len(content[0])>0:
-		return True,str(content[0])
+		return True,str(content[1])
 	return False,None
 
-    @view_config(request_method = 'GET')
+
+    @view_config(request_method = 'GET',renderer = 'json')
     def send_code(self):
 	phone_number = self.request.params.get('userId',None)
-	code = int(random.random()*10000)
+	try:
+	    pyc.setCollection("users")
+	    user = pyc.find({"userId":phone_number},{"_id":0})[0]
+	except IndexError:  
+	    code = self.createPhoneCode()
 
-	#调用运营商提供的接口向此手机号发送验证码
-	res = self.send_sms_chuanglan(phone_number,code)
-	print code
-	if res[0] and res[1]== 0:
-	    return Response(str(code))
-	else:
-	    print res[1]
-	    return Response('0')
-    @view_config(request_method = 'POST')
+	    #调用运营商提供的接口向此手机号发送验证码,这里仍然需要修改
+	    res = self.send_sms_changzhuo(phone_number,code)
+	    print phone_number,code
+	    sys.stdout.flush()
+	    if res[0]:
+	        return {"result":"0000","message":code}
+	    elif res[0]:
+	        return {"result":"0002","message":code}
+	return {"result":"0001","message":None}
+    @view_config(request_method = 'POST',renderer = 'json')
     def verify_code(self):
+	#code_v正确的验证码，code用户输入的验证码
 	code_v = int(self.request.params.get('code_v',None))
 	code = int(self.request.params.get('code',None))
 	if code_v == code:
-	    return Response('1')
+	    return {"result":"0000"}
 	else:
-	    return Response('0')
-    @view_config(request_param = "register=1",request_method = 'POST') 
+	    return {"result":"0004"}
+
+
+    @view_config(request_param = "register=1",request_method = 'POST',renderer = 'json') 
     def sign_up(self): 
 	temp = {} 
-	userId = request.params.get("userId",None) 
+	userId = self.request.params.get("userId",None) 
 
-	base_path = os.path.abspath('.')
-	seq = base_path.split('/')
-	path = '/'.join([base_path,seq[-1].lower(),'static'])
-	filename = '.'.join([self.phone_number,request.POST['img'].filename.split('.')[1]]) 
-	file_path = '/'.join([path,'imgs',filename]) 
-	input_file = request.POST['img'].file 
-	with open(file_path,'wb') as output_file: 
-	    shutil.copyfileobj(input_file,output_file) 
-	
-	headImage = file_path
+	headImage = self.request.params.get("headImage",None)
 
-	password = self.params.get("password",None)
-	gender = self.params.get("gender",None)
-	nickname = self.params.get("nickname",None) 
+	password = self.request.params.get("password",None)
+	gender = self.request.params.get("gender",None)
+	nickname = self.request.params.get("nickname",None) 
 	token = None 
-	LiveStatus = 0
+	liveStatus = "off"
 	isAdmin = 0
+	messages = []
 	
 	temp["userId"]= userId
 	temp["password"]= password
@@ -364,8 +162,17 @@ class register(object):
 	temp["nickname"]= nickname
 	temp["isAdmin"]= isAdmin
 	temp["headImage"]= headImage
+	temp["token"]= token
+	temp["messages"] = messages
+	temp["liveStatus"]= liveStatus
 
-	pyc.update({"userId":userId},temp)
+	
+	pyc.setCollection('users')
+	try:
+	    pyc.update({"userId":userId},temp)
+	except:
+	    return {"result":"0006"}
+	return {"result":"0000"}
 
 #登录和注销功能
 @view_defaults(route_name = 'log')
@@ -373,31 +180,291 @@ class SignInOut(object):
     def __init__(self,request):
 	self.request = request
 	self.token = request.params.get('token',None)
-	self.login = request.params.get('userid',None)
+	self.login = request.params.get('userId',None)
 	self.passwd = request.params.get('password',None)
 
-    def check_token(token):
+    def check_user(self,token):
     	try:
-	    user = pyc.find({"userId":event.login},{"_id":0})[0] 
+	    pyc.setCollection('users')
+	    user = pyc.find({"userId":self.login},{"_id":0})[0] 
 	except IndexError:
-	    return 1
+	    return 1,None
 	if self.passwd != user["password"]:
-	    return 2
-	token = auth.encode(event.login,
-		     time.time()+ event.request.params.get('expire_in',None))
-	pyc.update({"user_id":self.login},{"user_token":token})
-	return 0
+	    return 2,None
+	token = auth.encode(self.login,
+		     time.time()+ int(self.request.params.get('expire_in',None)))
+	pyc.update({"userId":self.login},{"token":token})
+	return 0,token
 
-    def sign_in(self,request_method = 'GET')
-	res = self.check_token(self.token)
-	if res == 0:
-	    return Response("登录成功")
-	if res == 1:
-	    return Response("用户不存在")
-	if res == 2:
-	    return Response("密码错误")
+    @view_config(request_method = 'POST',renderer = 'json')
+    def sign_in(self):
+	res = self.check_user(self.token)
+	if res[0] == 0:
+	    return {"result":"0000","message":res[1]}
+
+	if res[0] == 1:
+	    return {"result":"0007","message":None}
+
+	if res[0] == 2:
+	    return {"result":"0008","message":None}
 	
     @view_config(request_method = 'DELETE')
     def logout(self):
 	pass
+
+#消息处理
+#接受申请
+#拒绝申请
+
+#用户管理
+#1.搜索用户
+#2.好友搜索
+#3.添加好友
+#4.删除好友
+#5.显示好友列表
+
+#好友搜索策略还未确定
+@view_defaults(route_name = "friend")
+class FriendManage(object):
+    def __init__(self,request):
+	self.request = request
+
+    #用户搜索
+
+    @auth_interface
+    @view_config(request_method = 'POST',request_param = 'search=1',renderer = 'json')
+    def serach(self,**kws):
+	object_id = self.request.params.get("userId",None)
+	count = 0
+	pyc.setCollection('users')
+	try:
+	    user = pyc.find({"userId":object_id},{"_id":0,"password":0,"isAdmin":0,"messages":0})[0]
+	except IndexError:
+	    return {"result":"0007","message":None,"flag":None}
+
+	#判断目标用户是否为用户自己,以flag作为识别标示
+
+	if user["userId"]== kws["userid"]:
+	    return {"result":"0000","message":user,"flag":"-1"}
+	
+	#判断目标用户是否为好友
+	pyc.setCollection('relationships')
+	cur = pyc.find({"userId1":kws["userid"],"userId2":object_id})
+	for s in cur:
+	    count+= 1
+	if count == 1:
+	    return {"result":"0000","message":user,"flag":"1"}
+	else:
+	    cur = pyc.find({"userId1":object_id,"userId2":kws["userid"]})
+	    for s in cur:
+		count+= 1
+	    if count == 1:
+	        return {"result":"0000","message":user,"flag":"1"}
+	    else:
+		return {"result":"0000","message":user,"flag":"0"}
+
+    #添加好友
+    @auth_interface
+    @view_config(request_method = 'POST',renderer = 'json',request_param='add=1')
+    def add_friend(self,**kws):
+	object_id = self.request.params.get("userId",None)
+	try:
+	    pyc.setCollection('relationships')
+	    rel = pyc.find({"userId1":kws["userid"],"userId2":object_id})[0]
+	except IndexError:
+	    pyc.setCollection('users')
+	    #好友消息有4种，被申请者0:待接受，1:已接受;   申请者2:等待验证，3:已同意 
+	    #被申请人添加好友申请信息
+	    mes = pyc.find({"userId":kws["userid"]},
+			{"_id":0,"userId":1,"headImage":1,"gender":1,"nickname":1})[0]
+	    mes["flag"] = 0
+	    pyc.update({"userId":object_id},{"messages":{'$each':[mes]}},1)
+	    #申请人添加等待验证信息
+	    mes = pyc.find({"userId":object_id},
+			{"_id":0,"userId":1,"headImage":1,"gender":1,"nickname":1})[0]
+	    mes["flag"]= 2
+	    print mes
+	    pyc.update({"userId":kws["userid"]},{"messages":{'$each':[mes]}},1)
+	    return {"result":"0000","mes":None}
+	return {"result":"0010","mes":None}
+
+    #消息处理
+    @auth_interface
+    @view_config(request_method = 'POST',request_param = 'dealMessage=1',renderer='json')
+    def deal_messages(self,**kws):
+	behaviour = self.request.params.get("behaviour",None)
+	object_id = self.request.params.get("userId",None)
+	#如果同意申请，则将被申请方消息状态设置为已接受1,申请方消息状态设置为已同意3,并更新好友关系表
+	if behaviour == 'accept':
+	    pyc.setCollection("users")
+	    pyc.update({"userId":kws["userid"],"messages.userId":object_id},
+			{"messages.$.flag":1})
+	    pyc.update({"userId":object_id,"messages.userId":kws["userid"]},
+			{"messages.$.flag":3})
+
+	    pyc.setCollection("relationships") 
+	    pyc.update({"userId1":kws["userid"]},
+			{"userId1":kws["userid"],"userId2":object_id})
+	    '''
+	    pyc.update({"userId1":object_id},
+			{"userId1":object_id,"userId2":kws["userid"]})
+	    '''
+	    return {"result":"0000"}
+
+	#删除申请信息
+	if behaviour == 'delete':
+	    pyc.setCollection("users")
+	    pyc.update({"userId":kws["userid"]},{"messages":{"userId":object_id}},2)
+	    return {"result":"0000"}
+
+    #删除好友
+    @auth_interface
+    @view_config(request_method = 'POST',request_param='delete=1',renderer = 'json')
+    def del_friend(self,**kws):
+	object_id = self.request.params.get("userId",None)
+	pyc.setCollection('relationships')
+	count = pyc.remove({"userId1":kws["userid"],"userId2":object_id})
+	if count== 0:
+	    count = pyc.remove({"userId1":object_id,"userId2":kws["userid"]})
+	if count != 0:
+	    return json.dumps({"status":"true","mes":"已删除"},
+			ensure_ascii= False)
+	else:
+	    return json.dumps({"status":"false","mes":"不存在"},
+			ensure_ascii= False)
+
+
+@view_defaults(route_name='room')
+class room_logic(object):
+    def __init__(self,request):
+        self.request = request
+    
+    #创建房间
+    @auth_interface
+    @view_config(request_method = 'POST',request_param = "live=1",renderer = 'json')
+    def create_room(self,**kws):
+
+	title = self.request.params.get('title',None)
+        #向七牛直播空间申请推流stream，并将其以json格式返回
+	try:
+            credentials = Credentials(access_key,secret_key)
+            hub = Hub(credentials,hub_name)
+            stream = hub.create_stream(title=None , publishKey=None , 
+                    publishSecurity="static")
+	except:
+	    return {"result":"0009","message":None}
+        pilipili = {}
+        if(stream):
+	    pilipili['userId']= kws["userid"]
+            pilipili['roomId'] = stream.id
+            pilipili['publishUrl'] = stream.rtmp_publish_url()
+            pilipili['playUrl'] = stream.rtmp_live_urls()
+            pilipili['title'] = title
+	    
+	    pyc.setCollection('user_room')
+            pyc.update({"userId":kws["userid"]},pilipili)
+
+	    pyc.setCollection('users')
+	    pyc.update({"userId":kws["userid"]},{"liveStatus":"on"})
+
+        return {"result":"0000","message":json.loads(stream.to_json())}
+
+    #关闭房间
+    @auth_interface
+    @view_config(request_method = 'POST',renderer = 'string',request_param="leave=1")
+    def my_exitroom(self,**kws):
+        
+        #主播离开房间，删除相对应的stream，更新数据库
+
+	try:
+            credentials = Credentials(access_key,secret_key)
+            hub = Hub(credentials,hub_name)
+
+	    pyc.setCollection('user_room')
+            roomid = pyc.find({"userId":userid},{"_id":0})[0]["roomId"]
+            stream = hub.get_stream(stream_id = roomid)
+	except:
+	    return {"result":"0009"}
+
+        try:
+            stream.delete()
+        except Exception,e:
+            return {"result":"0009"}
+	pyc.setCollection('user_room')	
+        pyc.update({"userId":kws["userid"]},{"liveStatus":"off"})
+	return {"result":"0000"}
+
+
+@view_defaults(route_name = 'list' , renderer = 'json')
+class List(object):
+    def __init__(self,request):
+        self.request = request
+
+    def my_cmp(x,y):
+	if x["liveStatus"]== "on":
+	    return -1
+	if y["liveStatus"]== "on":
+	    return 1
+	return 0
+
+    def get_friends(self,userid):
+	i = 0
+	li = []
+	temp = {"count":i,"friends":li}
+	pyc.setCollection('relationships')
+	users = pyc.find({"$or":[{"userId1":userid},{"userId2":userid}]},{"_id":0})
+	for s in users:
+	    i+= 1
+	    if s["userId1"]== userid:
+		id_ = s["userId2"]
+	    else:
+		id_ = s["userId1"]
+	    pyc.setCollection('users')
+	    info = pyc.find({"userId":id_},{"_id":0,"userId":1,"headImage":1,"gender":1,"nickname":1,"liveStatus":1})[0]
+	    pyc.setCollection('user_room')
+	    try:
+	        info["playUrl"]= pyc.find({"userId":id_},{"_id":0,"playUrl":1})[0].get("playUrl",None)
+	    except IndexError:
+		info["playUrl"]= None
+	    li.append(info)
+	li.sort(self.my_cmp)
+	temp["friends"]= li
+	print temp
+	sys.stdout.flush()
+	return temp
+
+
+    #显示好友列表
+    @auth_interface
+    @view_config(request_method = 'POST',renderer = 'json',request_param='friendlist=1')
+    def show_list_friend(self,**kws):
+	temp = self.get_friends(kws["userid"])
+	return {"result":"0000","message":temp}
+
+    #显示消息列表
+    @auth_interface
+    @view_config(request_method = 'POST',renderer = 'json',request_param='messagelist=1')
+    def show_list_message(self,**kws):
+	count = 0
+	pyc.setCollection('users')
+	user = pyc.find({"userId":kws["userid"]},{"_id":0})[0]
+	messages = user["messages"]
+	return {"result":"0000","message":messages}
+
+@view_config(route_name = 'upload',renderer = 'json')
+def image_upload(request):
+	pic = request.POST['img']
+	filename = pic.filename
+	file_path = '/'.join(['static','user_imgs',filename]) 
+	input_file = pic.file
+	try:
+	    with open('/env/workspace/PyramidProject/MyProject/myproject/'+file_path,'wb') as output_file: 
+	    	shutil.copyfileobj(input_file,output_file) 
+	except:
+	    return {"result":"0006","message":None}
+	return {"result":"0000","message":file_path}	
+
+
+
+
 

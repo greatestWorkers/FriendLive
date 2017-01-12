@@ -30,6 +30,6 @@ def auth_interface(method):
 	token = self.request.params["token"]
 	struct = auth.decode(token)
         if struct is None:
-            return Response({"status":"failed","message":"please signup"})
+            return {"status":False,"message":"please signup"}
 	return method(self,**struct)
     return authed

@@ -1,0 +1,39 @@
+Traceback (most recent call last):
+  File "/bin/pserve", line 9, in <module>
+    load_entry_point('pyramid==1.7.3', 'console_scripts', 'pserve')()
+  File "/usr/lib/python2.7/site-packages/pyramid-1.7.3-py2.7.egg/pyramid/scripts/pserve.py", line 60, in main
+    return command.run()
+  File "/usr/lib/python2.7/site-packages/pyramid-1.7.3-py2.7.egg/pyramid/scripts/pserve.py", line 368, in run
+    relative_to=base, global_conf=vars)
+  File "/usr/lib/python2.7/site-packages/pyramid-1.7.3-py2.7.egg/pyramid/scripts/pserve.py", line 410, in loadserver
+    server_spec, name=name, relative_to=relative_to, **kw)
+  File "/usr/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/loadwsgi.py", line 255, in loadserver
+    return loadobj(SERVER, uri, name=name, **kw)
+  File "/usr/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/loadwsgi.py", line 271, in loadobj
+    global_conf=global_conf)
+  File "/usr/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/loadwsgi.py", line 296, in loadcontext
+    global_conf=global_conf)
+  File "/usr/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/loadwsgi.py", line 320, in _loadconfig
+    return loader.get_context(object_type, name, global_conf)
+  File "/usr/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/loadwsgi.py", line 454, in get_context
+    section)
+  File "/usr/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/loadwsgi.py", line 476, in _context_from_use
+    object_type, name=use, global_conf=global_conf)
+  File "/usr/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/loadwsgi.py", line 406, in get_context
+    global_conf=global_conf)
+  File "/usr/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/loadwsgi.py", line 296, in loadcontext
+    global_conf=global_conf)
+  File "/usr/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/loadwsgi.py", line 328, in _loadegg
+    return loader.get_context(object_type, name, global_conf)
+  File "/usr/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/loadwsgi.py", line 620, in get_context
+    object_type, name=name)
+  File "/usr/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/loadwsgi.py", line 640, in find_egg_entry_point
+    pkg_resources.require(self.spec)
+  File "build/bdist.linux-x86_64/egg/pkg_resources/__init__.py", line 970, in require
+  File "build/bdist.linux-x86_64/egg/pkg_resources/__init__.py", line 856, in resolve
+pkg_resources.DistributionNotFound: The 'waitress' distribution was not found and is required by the application
+Removing PID file pserve_5000.pid
+Starting server in PID 22594.
+Serving on http://0.0.0.0:5000
+Starting server in PID 22813.
+Serving on http://0.0.0.0:5001

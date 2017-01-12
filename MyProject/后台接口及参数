@@ -1,0 +1,16 @@
+
+注册视图：
+1.发送验证码
+url      http://192.168.199.122:6543/register
+请求方式 GET
+所需参数 userId
+响应     code 或者 错误信息
+2.校验验证码
+url:http://192.168.199.122:6543/register
+请求方式 POST
+所需参数 code_v(后台生成的随机验证码) code
+响应     '1' or '0'
+3.完善信息注册
+url      http://192.168.199.122:6543/register
+请求方式 POST
+所需参数 register= 1(修饰视图) userId password gender nickname isAdmin headImage

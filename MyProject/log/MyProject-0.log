@@ -1,0 +1,645 @@
+
+2017-01-12 16:41:33,922 ERROR [waitress][waitress] Exception when serving /list
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/auth.py", line 34, in authed
+    return method(self,**struct)
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 400, in show_list_friend
+    temp = self.get_friend(kws["userid"])
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 374, in get_friend
+    {"userId2":userid}]},{"_id":0})
+  File "/env/workspace/PyramidProject/MyProject/myproject/mongodb_connect.py", line 42, in find
+    exit(0)
+  File "/env/lib64/python2.7/site.py", line 403, in __call__
+    raise SystemExit(code)
+SystemExit: 0
+2017-01-12 16:43:12,434 ERROR [waitress][waitress] Exception when serving /list
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/auth.py", line 34, in authed
+    return method(self,**struct)
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 399, in show_list_friend
+    temp = self.get_friend(kws["userid"])
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 373, in get_friend
+    users = pyc.find({"$or":[{"userId1":userid},{"userId2":userid}]},{"_id":0})
+  File "/env/workspace/PyramidProject/MyProject/myproject/mongodb_connect.py", line 42, in find
+    exit(0)
+  File "/env/lib64/python2.7/site.py", line 403, in __call__
+    raise SystemExit(code)
+SystemExit: 0
+2017-01-12 16:43:15,468 ERROR [waitress][waitress] Exception when serving /list
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/auth.py", line 34, in authed
+    return method(self,**struct)
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 399, in show_list_friend
+    temp = self.get_friend(kws["userid"])
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 373, in get_friend
+    users = pyc.find({"$or":[{"userId1":userid},{"userId2":userid}]},{"_id":0})
+  File "/env/workspace/PyramidProject/MyProject/myproject/mongodb_connect.py", line 42, in find
+    exit(0)
+  File "/env/lib64/python2.7/site.py", line 403, in __call__
+    raise SystemExit(code)
+SystemExit: 0
+2017-01-12 16:46:31,687 ERROR [waitress][waitress] Exception when serving /list
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/auth.py", line 34, in authed
+    return method(self,**struct)
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 399, in show_list_friend
+    temp = self.get_friend(kws["userid"])
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 373, in get_friend
+    users = pyc.find({"$or":[{"userId1":userid},{"userId2":userid}]},{"_id":0})
+  File "/env/workspace/PyramidProject/MyProject/myproject/mongodb_connect.py", line 43, in find
+    exit(0)
+  File "/env/lib64/python2.7/site.py", line 403, in __call__
+    raise SystemExit(code)
+SystemExit: 0
+2017-01-12 16:49:00,377 ERROR [waitress][waitress] Exception when serving /list
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/auth.py", line 34, in authed
+    return method(self,**struct)
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 399, in show_list_friend
+    temp = self.get_friend(kws["userid"])
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 373, in get_friend
+    users = pyc.find({"$or":[{"userId1":userid},{"userId2":userid}]},{"_id":0})
+  File "/env/workspace/PyramidProject/MyProject/myproject/mongodb_connect.py", line 45, in find
+    exit(0)
+  File "/env/lib64/python2.7/site.py", line 403, in __call__
+    raise SystemExit(code)
+SystemExit: 0
+Starting server in PID 11188.
+Serving on http://0.0.0.0:5000
+some fields name are wrong in  {'$or': [{'userId1': '11111111111'}, {'userId2': '11111111111'}]}
+{'count': 0, 'friends': []}
+2017-01-12 16:50:35,772 ERROR [waitress][waitress] Exception when serving /list
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/auth.py", line 34, in authed
+    return method(self,**struct)
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 399, in show_list_friend
+    temp = self.get_friend(kws["userid"])
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 373, in get_friend
+    users = pyc.find({"$or":[{"userId1":userid},{"userId2":userid}]},{"_id":0})
+  File "/env/workspace/PyramidProject/MyProject/myproject/mongodb_connect.py", line 45, in find
+    sys.stdout.flush()
+NameError: global name 'sys' is not defined
+2017-01-12 17:04:12,020 ERROR [waitress][waitress] Exception when serving /list
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/auth.py", line 34, in authed
+    return method(self,**struct)
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 400, in show_list_friend
+    temp = self.get_friend(kws["userid"])
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 377, in get_friend
+    if s["userId1"]== kws["userid"]:
+NameError: global name 'kws' is not defined
+2017-01-12 17:04:59,622 ERROR [waitress][waitress] Exception when serving /list
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/auth.py", line 34, in authed
+    return method(self,**struct)
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 400, in show_list_friend
+    temp = self.get_friend(kws["userid"])
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 377, in get_friend
+    if s["userId1"]== kws["userid"]:
+NameError: global name 'kws' is not defined
+Starting server in PID 11987.
+Serving on http://0.0.0.0:5000
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154604.png', u'gender': u'0', u'userId': u'15827486857', u'liveStatus': u'on', u'nickname': u'\u838e\u838e', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/58773e8c75b6256c490d7c36'}}]}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154554.png', u'gender': u'1', u'userId': u'11111111111', u'liveStatus': u'on', u'nickname': u'\u9ec4\u554a', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/58773c175e77b008540d6cd1'}}]}
+{u'nonce': 0, u'publishSecurity': u'static', u'hub': u'mrpyq', u'expireAt': u'2017-01-28T17:06:54.825821626+08:00', u'title': u'5877472e1013851dd60dbfe9', u'publishKey': u'dadac3ff0f7e8d38', u'disabled': False, u'disabledTill': 0, u'nropEnable': None, u'hosts': {u'live': {u'snapshot': u'pili-live-snapshot.mrpyq.com', u'http': u'pili-live-hls.mrpyq.com', u'hdl': u'pili-live-hdl.mrpyq.com', u'hls': u'pili-live-hls.mrpyq.com', u'rtmp': u'pili-live-rtmp.mrpyq.com'}, u'playback': {u'http': u'10004p0.playback1.z1.pili.qiniucdn.com', u'hls': u'10004p0.playback1.z1.pili.qiniucdn.com'}, u'play': {u'http': u'pili-live-hls.mrpyq.com', u'rtmp': u'pili-live-rtmp.mrpyq.com'}, u'publish': {u'rtmp': u'pili-publish.mrpyq.com'}}, u'updatedAt': u'2017-01-12T17:06:54.825+08:00', u'id': u'z1.mrpyq.5877472e1013851dd60dbfe9', u'createdAt': u'2017-01-12T17:06:54.825+08:00'}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154554.png', u'gender': u'1', u'userId': u'11111111111', u'liveStatus': u'on', u'nickname': u'\u9ec4\u554a', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/5877472e1013851dd60dbfe9'}}]}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154554.png', u'gender': u'1', u'userId': u'11111111111', u'liveStatus': u'on', u'nickname': u'\u9ec4\u554a', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/5877472e1013851dd60dbfe9'}}]}
+2017-01-12 17:23:22,183 ERROR [waitress][waitress] Exception when serving /register
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 116, in send_code
+    res = self.send_sms_changzhuo(phone_number,code)
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 68, in send_sms_changzhuo
+    path = self.request.path)
+TypeError: __init__() takes exactly 2 arguments (4 given)
+2017-01-12 18:17:05,864 ERROR [waitress][waitress] Exception when serving /register
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 125, in send_code
+    res = self.send_sms_changzhuo(phone_number,code)
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 77, in send_sms_changzhuo
+    path = self.request.path)
+TypeError: __init__() got an unexpected keyword argument 'path'
+Starting server in PID 14122.
+Serving on http://0.0.0.0:5000
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154554.png', u'gender': u'1', u'userId': u'11111111111', u'liveStatus': u'on', u'nickname': u'\u9ec4\u554a', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/5877472e1013851dd60dbfe9'}}]}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154554.png', u'gender': u'1', u'userId': u'11111111111', u'liveStatus': u'on', u'nickname': u'\u9ec4\u554a', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/5877472e1013851dd60dbfe9'}}]}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154554.png', u'gender': u'1', u'userId': u'11111111111', u'liveStatus': u'on', u'nickname': u'\u9ec4\u554a', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/5877472e1013851dd60dbfe9'}}]}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154604.png', u'gender': u'0', u'userId': u'15827486857', u'liveStatus': u'on', u'nickname': u'\u838e\u838e', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/58773e8c75b6256c490d7c36'}}]}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154604.png', u'gender': u'0', u'userId': u'15827486857', u'liveStatus': u'on', u'nickname': u'\u838e\u838e', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/58775beb1013851dd60e6394'}}]}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154604.png', u'gender': u'0', u'userId': u'15827486857', u'liveStatus': u'on', u'nickname': u'\u838e\u838e', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/58775beb1013851dd60e6394'}}]}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154554.png', u'gender': u'1', u'userId': u'11111111111', u'liveStatus': u'on', u'nickname': u'\u9ec4\u554a', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/5877472e1013851dd60dbfe9'}}]}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154554.png', u'gender': u'1', u'userId': u'11111111111', u'liveStatus': u'on', u'nickname': u'\u9ec4\u554a', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/5877472e1013851dd60dbfe9'}}]}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154554.png', u'gender': u'1', u'userId': u'11111111111', u'liveStatus': u'on', u'nickname': u'\u9ec4\u554a', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/5877472e1013851dd60dbfe9'}}]}
+2017-01-12 18:47:42,381 ERROR [waitress][waitress] Exception when serving /register
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 125, in send_code
+    res = self.send_sms_changzhuo(phone_number,code)
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 77, in send_sms_changzhuo
+    self.request.path)
+APIError: /register
+Starting server in PID 15437.
+Serving on http://0.0.0.0:5000
+{u'overage': 0, u'mobileCount': 0, u'status': -101, u'taskId': None, u'desc': u'\u8d26\u53f7\uff08account\uff09\u4e0d\u80fd\u4e3a\u7a7a'}
+2017-01-12 18:51:48,076 ERROR [waitress][waitress] Exception when serving /register
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 127, in send_code
+    res = self.send_sms_changzhuo(phone_number,code)
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 79, in send_sms_changzhuo
+    self.request.path)
+APIError: /register
+Starting server in PID 15489.
+Serving on http://0.0.0.0:5000
+13182869169 9664
+2017-01-12 18:53:28,434 ERROR [waitress][waitress] Exception when serving /register
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 130, in send_code
+    if res[0] and res[1]== 0:
+TypeError: 'Response' object does not support indexing
+2017-01-12 19:14:11,533 ERROR [waitress][waitress] Exception when serving /register
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 127, in send_code
+    return json.dumps(json.loads(res),ensure_ascii=False)
+  File "/usr/lib64/python2.7/json/__init__.py", line 338, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib64/python2.7/json/decoder.py", line 365, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+TypeError: expected string or buffer
+Starting server in PID 16332.
+Serving on http://0.0.0.0:5000
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154554.png', u'gender': u'1', u'userId': u'11111111111', u'liveStatus': u'on', u'nickname': u'\u9ec4\u554a', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/5877472e1013851dd60dbfe9'}}]}
+Starting server in PID 16371.
+Serving on http://0.0.0.0:5000
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154554.png', u'gender': u'1', u'userId': u'11111111111', u'liveStatus': u'on', u'nickname': u'\u9ec4\u554a', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/5877472e1013851dd60dbfe9'}}]}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154554.png', u'gender': u'1', u'userId': u'11111111111', u'liveStatus': u'on', u'nickname': u'\u9ec4\u554a', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/5877472e1013851dd60dbfe9'}}]}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170112154554.png', u'gender': u'1', u'userId': u'11111111111', u'liveStatus': u'on', u'nickname': u'\u9ec4\u554a', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/5877472e1013851dd60dbfe9'}}]}
+2017-01-12 19:25:07,905 ERROR [waitress][waitress] Exception when serving /register
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 125, in send_code
+    res = self.send_sms_changzhuo(phone_number,code)
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 77, in send_sms_changzhuo
+    self.request.path)
+APIError: /register
+2017-01-12 19:25:19,463 ERROR [waitress][waitress] Exception when serving /list
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/auth.py", line 34, in authed
+    return method(self,**struct)
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 441, in show_list_friend
+    temp = self.get_friend(kws["userid"])
+AttributeError: 'List' object has no attribute 'get_friend'
+2017-01-12 19:26:10,967 ERROR [waitress][waitress] Exception when serving /register
+Traceback (most recent call last):
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/channel.py", line 338, in service
+    task.service()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 169, in service
+    self.execute()
+  File "/env/lib/python2.7/site-packages/waitress-1.0.0-py2.7.egg/waitress/task.py", line 399, in execute
+    app_iter = self.channel.server.application(env, start_response)
+  File "/env/lib/python2.7/site-packages/PasteDeploy-1.5.2-py2.7.egg/paste/deploy/config.py", line 291, in __call__
+    return self.app(environ, start_response)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 251, in __call__
+    response = self.invoke_subrequest(request, use_tweens=True)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 227, in invoke_subrequest
+    response = handle_request(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/tweens.py", line 21, in excview_tween
+    response = handler(request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/router.py", line 161, in handle_request
+    response = view_callable(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 588, in __call__
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 321, in attr_view
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 297, in predicate_wrapper
+    return view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 347, in rendered_view
+    result = view(context, request)
+  File "/env/lib/python2.7/site-packages/pyramid-1.4.9-py2.7.egg/pyramid/config/views.py", line 469, in _class_requestonly_view
+    response = getattr(inst, attr)()
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 125, in send_code
+    res = self.send_sms_changzhuo(phone_number,code)
+  File "/env/workspace/PyramidProject/MyProject/myproject/views.py", line 77, in send_sms_changzhuo
+    self.request.path)
+APIError: /register
+Starting server in PID 16707.
+Serving on http://0.0.0.0:5000
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170110155642.png', u'gender': u'0', u'userId': u'12345678922', u'liveStatus': u'off', u'nickname': u'\u6211\u771f\u60f3\u9759\u9759', 'playUrl': None}]}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170109170134.png', u'gender': u'1', u'userId': u'12345678912', u'liveStatus': u'on', u'nickname': u'\u6211\u4e0d\u60f3\u9759\u9759', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/5876ea4775b6256c490b2565'}}]}
+{u'nonce': 0, u'publishSecurity': u'static', u'hub': u'mrpyq', u'expireAt': u'2017-01-28T19:29:46.990606045+08:00', u'title': u'587768aa1013851dd60ec287', u'publishKey': u'b30afea6d7fe2a68', u'disabled': False, u'disabledTill': 0, u'nropEnable': None, u'hosts': {u'live': {u'snapshot': u'pili-live-snapshot.mrpyq.com', u'http': u'pili-live-hls.mrpyq.com', u'hdl': u'pili-live-hdl.mrpyq.com', u'hls': u'pili-live-hls.mrpyq.com', u'rtmp': u'pili-live-rtmp.mrpyq.com'}, u'playback': {u'http': u'10004p0.playback1.z1.pili.qiniucdn.com', u'hls': u'10004p0.playback1.z1.pili.qiniucdn.com'}, u'play': {u'http': u'pili-live-hls.mrpyq.com', u'rtmp': u'pili-live-rtmp.mrpyq.com'}, u'publish': {u'rtmp': u'pili-publish.mrpyq.com'}}, u'updatedAt': u'2017-01-12T19:29:46.99+08:00', u'id': u'z1.mrpyq.587768aa1013851dd60ec287', u'createdAt': u'2017-01-12T19:29:46.99+08:00'}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170109170134.png', u'gender': u'1', u'userId': u'12345678912', u'liveStatus': u'on', u'nickname': u'\u6211\u4e0d\u60f3\u9759\u9759', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/587768aa1013851dd60ec287'}}]}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170109170134.png', u'gender': u'1', u'userId': u'12345678912', u'liveStatus': u'on', u'nickname': u'\u6211\u4e0d\u60f3\u9759\u9759', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/587768aa1013851dd60ec287'}}]}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170109170134.png', u'gender': u'1', u'userId': u'12345678912', u'liveStatus': u'on', u'nickname': u'\u6211\u4e0d\u60f3\u9759\u9759', 'playUrl': {u'ORIGIN': u'rtmp://pili-live-rtmp.mrpyq.com/mrpyq/587768aa1013851dd60ec287'}}]}
+{'count': 0, 'friends': [{u'headImage': u'static/user_imgs/20170110155642.png', u'gender': u'0', u'userId': u'12345678922', u'liveStatus': u'off', u'nickname': u'\u6211\u771f\u60f3\u9759\u9759', 'playUrl': None}]}

@@ -54,11 +54,20 @@ class PyConnect(object):
 	if type(data) is not dict:
 	    print 'the type of remove dadta isn\'t dict'
 	    exit(0)
-	self.coll.remove(data)
+	result = self.coll.delete_one(data)
+	return result.deleted_count
 
     #更新数据
-    def update(self,query = {},data={}):
+    def update(self,query = {},data={},flag= 0):
 	if type(query) is not dict or type(data) is not dict:
 	    print 'the type of update isn\'t dict'
 	    exit(0)
-	self.coll.update(query,{'$set':data},True)
+	#$set
+	if flag == 0:
+	    self.coll.update(query,{'$set':data},True)
+	#$addToSet
+	if flag == 1:
+	    self.coll.update(query,{'$addToSet':data})
+	#$pull
+	if flag == 2:
+	    self.coll.update(query,{'$pull':data})
