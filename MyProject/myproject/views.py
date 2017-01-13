@@ -73,25 +73,28 @@ class register(object):
 	    if resp.get('status')== 0:
 		return True,str(resp.get('taskId'))
 	    else:
+		return True,str(resp.get('taskId'))
+		'''
 		raise APIError(-1,u'发送手机验证码错误:%s'%resp.get('desc'),
 			 self.request.path)
+		'''
 	return False,None
 
     def send_sms_chuanglan(self,phone,code):
-	account = "jk_cs_cs1"
-	password = "Chuanglan888"
+	account = "N8340351"
+	password = "FxB1iVcM6w2a9f"
 
-	msg = u'您好，您本次的注册验证码是%s'%(code)
-	host = "sapi.253.com"
-	sms_send_uri = "/msg/HttpBatchSendSM"
+	msg = u'【253云通讯】您好，您本次的注册验证码是%s'%(code)
+	host = "sms.253.com"
+	sms_send_uri = "/msg/send"
 
 	data = {
-	    'account':account,
-	    'pswd':password,
+	    'un':account,
+	    'pw':password,
 	    'msg':msg,
-	    'mobile':phone,
-	    'needstatus':'false',
-	    'extno':''
+	    'phone':phone,
+	    'rd':0,
+	    'ex':''
 	}
 	headers = {
 	    "Content-type":"application/x-www-form-urlencoded",
@@ -103,13 +106,16 @@ class register(object):
 	r = requests.session().request('POST',url,verify=False,
 		headers=headers,data=data,)
 	if r.ok:
-	    content = r.content.split(',')
-	    print content
+	    try:
+	    	content = r.content.split('\n')
+		firstline = content[0].split(',')
+	    except:
+		content = r.content.split(',')
+	    print firstline
 	    sys.stdout.flush() 
-	    #测试，返回了错误码说明接口可用
-	    if len(content) == 2 and len(content[0])>0:
-		return True,str(content[1])
-	return False,None
+	    if firstline[1] == "0":
+		return True
+	return False
 
 
     @view_config(request_method = 'GET',renderer = 'json')
@@ -122,12 +128,12 @@ class register(object):
 	    code = self.createPhoneCode()
 
 	    #调用运营商提供的接口向此手机号发送验证码,这里仍然需要修改
-	    res = self.send_sms_changzhuo(phone_number,code)
+	    res = self.send_sms_chuanglan(phone_number,code)
 	    print phone_number,code
 	    sys.stdout.flush()
-	    if res[0]:
+	    if res:
 	        return {"result":"0000","message":code}
-	    elif res[0]:
+	    else:
 	        return {"result":"0002","message":code}
 	return {"result":"0001","message":None}
     @view_config(request_method = 'POST',renderer = 'json')
@@ -148,7 +154,13 @@ class register(object):
 
 	headImage = self.request.params.get("headImage",None)
 
-	password = self.request.params.get("password",None)
+	#对用户的密码加密
+	pwd = self.request.params.get("password",None)
+	if pwd != None:
+	    m = hashlib.md5()
+	    m.update(pwd)
+	    password = m.hexdigest()
+
 	gender = self.request.params.get("gender",None)
 	nickname = self.request.params.get("nickname",None) 
 	token = None 
@@ -189,7 +201,11 @@ class SignInOut(object):
 	    user = pyc.find({"userId":self.login},{"_id":0})[0] 
 	except IndexError:
 	    return 1,None
-	if self.passwd != user["password"]:
+
+	m = hashlib.md5()
+	m.update(self.passwd)
+
+	if m.hexdigest() != user["password"]:
 	    return 2,None
 	token = auth.encode(self.login,
 		     time.time()+ int(self.request.params.get('expire_in',None)))
@@ -238,7 +254,7 @@ class FriendManage(object):
 	count = 0
 	pyc.setCollection('users')
 	try:
-	    user = pyc.find({"userId":object_id},{"_id":0,"password":0,"isAdmin":0,"messages":0})[0]
+	    user = pyc.find({"$or":[{"userId":object_id},{"nickname":object_id}]},{"_id":0,"password":0,"isAdmin":0,"messages":0})[0]
 	except IndexError:
 	    return {"result":"0007","message":None,"flag":None}
 
@@ -277,16 +293,15 @@ class FriendManage(object):
 	    #被申请人添加好友申请信息
 	    mes = pyc.find({"userId":kws["userid"]},
 			{"_id":0,"userId":1,"headImage":1,"gender":1,"nickname":1})[0]
-	    mes["flag"] = 0
+	    mes["flag"] = "0"
 	    pyc.update({"userId":object_id},{"messages":{'$each':[mes]}},1)
 	    #申请人添加等待验证信息
 	    mes = pyc.find({"userId":object_id},
 			{"_id":0,"userId":1,"headImage":1,"gender":1,"nickname":1})[0]
-	    mes["flag"]= 2
-	    print mes
+	    mes["flag"]= "2"
 	    pyc.update({"userId":kws["userid"]},{"messages":{'$each':[mes]}},1)
-	    return {"result":"0000","mes":None}
-	return {"result":"0010","mes":None}
+	    return {"result":"0000","message":None}
+	return {"result":"0010","message":None}
 
     #消息处理
     @auth_interface
@@ -298,12 +313,12 @@ class FriendManage(object):
 	if behaviour == 'accept':
 	    pyc.setCollection("users")
 	    pyc.update({"userId":kws["userid"],"messages.userId":object_id},
-			{"messages.$.flag":1})
+			{"messages.$.flag":"1"})
 	    pyc.update({"userId":object_id,"messages.userId":kws["userid"]},
-			{"messages.$.flag":3})
+			{"messages.$.flag":"3"})
 
 	    pyc.setCollection("relationships") 
-	    pyc.update({"userId1":kws["userid"]},
+	    pyc.update({"userId1":kws["userid"],"userId2":object_id},
 			{"userId1":kws["userid"],"userId2":object_id})
 	    '''
 	    pyc.update({"userId1":object_id},
@@ -327,11 +342,9 @@ class FriendManage(object):
 	if count== 0:
 	    count = pyc.remove({"userId1":object_id,"userId2":kws["userid"]})
 	if count != 0:
-	    return json.dumps({"status":"true","mes":"已删除"},
-			ensure_ascii= False)
+	    return {"result":"0000","message":None}
 	else:
-	    return json.dumps({"status":"false","mes":"不存在"},
-			ensure_ascii= False)
+	    return {"result":"0006","message":None}
 
 
 @view_defaults(route_name='room')
@@ -371,7 +384,7 @@ class room_logic(object):
 
     #关闭房间
     @auth_interface
-    @view_config(request_method = 'POST',renderer = 'string',request_param="leave=1")
+    @view_config(request_method = 'POST',renderer = 'json',request_param="leave=1")
     def my_exitroom(self,**kws):
         
         #主播离开房间，删除相对应的stream，更新数据库
@@ -381,16 +394,16 @@ class room_logic(object):
             hub = Hub(credentials,hub_name)
 
 	    pyc.setCollection('user_room')
-            roomid = pyc.find({"userId":userid},{"_id":0})[0]["roomId"]
+            roomid = pyc.find({"userId":kws["userid"]},{"_id":0})[0]["roomId"]
+	    sys.stdout.flush()
             stream = hub.get_stream(stream_id = roomid)
 	except:
 	    return {"result":"0009"}
-
         try:
             stream.delete()
         except Exception,e:
             return {"result":"0009"}
-	pyc.setCollection('user_room')	
+	pyc.setCollection('users')	
         pyc.update({"userId":kws["userid"]},{"liveStatus":"off"})
 	return {"result":"0000"}
 
@@ -400,7 +413,7 @@ class List(object):
     def __init__(self,request):
         self.request = request
 
-    def my_cmp(x,y):
+    def my_cmp(self,x,y):
 	if x["liveStatus"]== "on":
 	    return -1
 	if y["liveStatus"]== "on":
@@ -429,6 +442,7 @@ class List(object):
 	    li.append(info)
 	li.sort(self.my_cmp)
 	temp["friends"]= li
+	temp["count"]= i
 	print temp
 	sys.stdout.flush()
 	return temp
