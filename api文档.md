@@ -386,7 +386,9 @@
 | 序号 | 参数名 | 中文名称 | 必选 | 数据类型 | 长度 | 备注 |
 | :--- | :---: | :--- | :--- | :--- | :--- | :--- |
 | 1 | token | 用户标示 | Y | string |  | 验证用户合法性 |
-| 2 | userId | 消息目标帐号 | Y | string | 11位 | 电话号码 |
+| 2 | userId | 申请者的用户Id | Y | string |  | 电话号码 |
+| 2 | verifyId | 识别被申请方待同意消息 | Y | string |  | “电话号码,时间戳“ |
+| 3 | objectId | 识别申请方对应的待接受消息 | Y | string |  | “电话号码，时间戳” |
 | 3 | behaviour | 对消息的处理方式 | Y | string |  | "accept"：同意申请； "delete"：删除消息； |
 | 4 | dealMessage |  | Y | string |  | 值为"1",修饰视图 |
 
